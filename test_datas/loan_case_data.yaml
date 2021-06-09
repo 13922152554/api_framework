@@ -1,0 +1,743 @@
+add:
+  - title: '普通会员新增(借款金额：100w，年利率：0.01，借款期限：1,借款期限类型：1，竞标天数：1天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 1000000
+      loan_rate: 0.01
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 1
+    expect: {"code": 0, "msg": "OK"}
+    sql: "select title, amount,loan_rate, loan_term, loan_date_type, bidding_days, `status` from futureloan.loan where id=#loan_id#;"
+
+  - title: '普通会员新增(借款金额1000w，年利率：50，借款期限:36,借款期限类型：1，竞标天数：10天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000000
+      loan_rate: 50
+      loan_term: 36
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 0, "msg": "OK"}
+    sql: ""
+
+  - title: '普通会员新增(借款金额1000w，年利率：24，借款期限:12.5,借款期限类型：1，竞标天数：10天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000000
+      loan_rate: 24
+      loan_term: 12.5
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额50.5w，年利率：100，借款期限:10,借款期限类型：2，竞标天数：5天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 500000.5
+      loan_rate: 20.5
+      loan_term: 10
+      loan_date_type: 2
+      bidding_days: 5
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额1000w，年利率：5，借款期限:45,借款期限类型：2，竞标天数：7天）的项目_新增成功'
+    data: &add_data
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 45
+      loan_date_type: 2
+      bidding_days: 7
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额1000w，年利率：5，借款期限:30.5,借款期限类型：2，竞标天数：7天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 30.5
+      loan_date_type: 2
+      bidding_days: 7
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '用户id为空_新增失败'
+    data:
+      member_id: ''
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "用户id为空"}
+    sql: ''
+
+  - title: '非当前登录用户_新增失败'
+    data:
+      member_id: '#error_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
+  - title: '标题为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: ''
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题为纯空格字符_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '     '
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题为int(0)_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: 0
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题长度>50_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#max_title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题超长"}
+    sql: ''
+
+  - title: '年利率为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: ''
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "利率为空"}
+    sql: ''
+
+  - title: '年利率为纯空格字符_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: '     '
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "利率为空"}
+    sql: ''
+
+  - title: '年利率为负数_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: -5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为0_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 0
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率>100%_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 101
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为a_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: a
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为str(7)_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 7
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '借款期限为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: '  '
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "借款期限为空"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为0月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 0
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为37月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 37
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为a月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 'a'
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为-12月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: -12
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为9天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 9
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为46天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 46
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为0天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 0
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为11.17天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 11.7
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为a天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 'a'
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为-11天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: -11
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '竞标天数为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: ''
+    expect: {"code": 1, "msg": "竞标期限为空"}
+    sql: ''
+
+  - title: '竞标天数为0天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 0
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为11天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 11
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为5.17天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 5.17
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为a天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: a
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为-5天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: -5
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+audit:
+  - title: '管理员审核通过竞标中状态的项目_审核成功'
+    add_data:
+      <<: *add_data
+    audit_data: &audit_data
+      loan_id: '#loan_id#'
+      approved_or_not: 'true'
+    expect: {"code": 0, "msg": "OK", "status": 2}
+    sql: 'select STATUS from futureloan.loan where id=#loan_id#;'
+
+  - title: '管理员审核不通过竞标中状态的项目_审核成功'
+    add_data:
+      <<: *add_data
+    audit_data:
+      loan_id: '#loan_id#'
+      approved_or_not: 'false'
+    expect: {"code": 0, "msg": "OK", "status": 5}
+    sql: 'select STATUS from futureloan.loan where id=#loan_id#;'
+
+  - title: '管理员审核非审核中状态（竞标中）的项目_审核失败'
+    audit_data:
+      loan_id: '#bidding_loan_id#'
+      approved_or_not: 'true'
+    expect: {"code": 2, "msg": "项目不在审核中状态"}
+    sql: ''
+
+  - title: '管理员审核不存在的项目_审核失败'
+    audit_data:
+      loan_id: '#err_loan_id#'
+      approved_or_not: 'true'
+    expect: {"code": 2, "msg": "项目不存在"}
+    sql: ''
+
+  - title: '项目id为空_审核失败'
+    audit_data:
+      loan_id: ''
+      approved_or_not: 'true'
+    expect: {"code": 2, "msg": "数值格式异常"}
+    sql: ''
+
+  - title: '审核状态为空_审核失败'
+    add_data:
+      <<: *add_data
+    audit_data:
+      loan_id: '#loan_id#'
+      approved_or_not: ''
+    expect: {"code": 1, "msg": "approved_or_not只能为true或者false"}
+    sql: ''
+
+invest:
+  - title: '普通会员投资竞标中状态的项目100元_投资成功'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 100
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 100
+    expect: {'code': 0, 'msg': 'OK'}
+    sql: {"invest":'select amount from futureloan.invest where loan_id=#loan_id#;',
+          "financeLog": 'select pay_member_id, amount from futureloan.financeLog ORDER BY id desc LIMIT 0,1;',
+          "member": 'select leave_amount from futureloan.member where id=#member_id#;'}
+
+  - title: '普通会员投资竞标中状态的项目10W元（按项目金额全额投资）_投资成功'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 100000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 100000
+    expect: {'code': 0, 'msg': 'OK'}
+    sql: ''
+
+  - title: '投资金额大于账号可用余额_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 10000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 10100
+    expect: {'code': 2, 'msg': '账户余额不足'}
+    sql: ''
+
+  - title: '会员id为空_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: ''
+      loan_id: '#loan_id#'
+      amount: 1000
+    expect: {'code': 2, 'msg': '数值参数格式错误'}
+    sql: ''
+
+  - title: '非当前登录用户投资竞标中状态的项目100元_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#error_id#'
+      loan_id: '#loan_id#'
+      amount: 1000
+    expect: {'code': 1007, 'msg': '无权限访问，请检查参数'}
+    sql: ''
+
+  - title: '项目id为空_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: ''
+      amount: 1000
+    expect: {'code': 2, 'msg': '数值参数格式错误'}
+    sql: ''
+
+  - title: '投资非竞标中状态（审核中）的项目1000元_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#auditting_loan_id#'
+      amount: 1000
+    expect: {'code': 2, 'msg': '该项目不在竞标中状态'}
+    sql: ''
+
+  - title: '投资不存在的项目_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#err_loan_id#'
+      amount: 1000
+    expect: {'code': 2, 'msg': '项目不存在'}
+    sql: ''
+
+  - title: '投资金额为空_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: ''
+    expect: {'code': 2, 'msg': '数值参数格式错误'}
+    sql: ''
+
+  - title: '投资金额为0_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 0
+    expect: {'code': 2, 'msg': '充值金额必须大于100，并且可以被100整除'}
+    sql: ''
+
+  - title: '投资金额为-100_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: -100
+    expect: {'code': 2, 'msg': '充值金额必须大于100，并且可以被100整除'}
+    sql: ''
+
+  - title: '投资金额非100整数_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 999
+    expect: {'code': 2, 'msg': '充值金额必须大于100，并且可以被100整除'}
+    sql: ''
+
+  - title: '投资金额为str(100)元_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: '100'
+    expect: {'code': 2, 'msg': '充值金额必须大于100，并且可以被100整除'}
+    sql: ''
+
+  - title: '投资金额大于项目可投金额_投资失败'
+    recharge_data:
+      member_id: '#member_id#'
+      amount: 500000
+    add_data:
+      <<: *add_data
+    audit_data:
+      <<: *audit_data
+    invest_data:
+      member_id: '#member_id#'
+      loan_id: '#loan_id#'
+      amount: 100100
+    expect: {'code': 2, 'msg': '该标可投金额不足'}
+    sql: ''
+
+loans:
+  - title: '当页索引与每页大小为空获取项目列表_获取成功'
+    data:
+      pageIndex: ''
+      pageSize: ''
+    expect: {'code': 0, 'msg': 'OK', 'loan_len': 10}
+
+  - title: '当页索引为空获取项目列表_获取成功'
+    data:
+      pageIndex: ''
+      pageSize: 5
+    expect: {'code': 0, 'msg': 'OK', 'loan_len': 5}
+
+  - title: '每页大小为空获取项目列表_获取成功'
+    data:
+      pageIndex: 2
+      pageSize: ''
+    expect: {'code': 0, 'msg': 'OK', 'loan_len': 10}
+
+  - title: '当页索引与每页大小均不为空获取项目列表_获取成功'
+    data:
+      pageIndex: 2
+      pageSize: 2
+    expect: {'code': 0, 'msg': 'OK', 'loan_len': 2}
+
+  - title: '当页索引为0获取项目列表_获取失败'
+    data:
+      pageIndex: 0
+      pageSize: 2
+    expect: {'code': 2, 'msg': '当页索引必须为int型正整数'}
+
+  - title: '当页索引为-1获取项目列表_获取失败'
+    data:
+      pageIndex: -1
+      pageSize: 2
+    expect: {'code': 2, 'msg': '当页索引必须为int型正整数'}
+
+  - title: '当页索引为a获取项目列表_获取失败'
+    data:
+      pageIndex: a
+      pageSize: 2
+    expect: {'code': 2, 'msg': '当页索引必须为int型正整数'}
+
+  - title: '每页大小为0获取项目列表_获取失败'
+    data:
+      pageIndex: 2
+      pageSize: 0
+    expect: {'code': 2, 'msg': '每页大小必须为int型正整数'}
+
+  - title: '每页大小为-1获取项目列表_获取失败'
+    data:
+      pageIndex: 2
+      pageSize: -1
+    expect: {'code': 2, 'msg': '每页大小必须为int型正整数'}
+
+  - title: '每页大小为a获取项目列表_获取失败'
+    data:
+      pageIndex: 2
+      pageSize: a
+    expect: {'code': 2, 'msg': '每页大小必须为int型正整数'}

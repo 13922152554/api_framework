@@ -1,0 +1,876 @@
+register:
+  - title: '正确手机号与密码带注册名注册管理员账号_注册成功'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+      type: 0
+      reg_name: 'keke'
+    expect: {"code": 0, "msg": "OK"}
+    sql: "SELECT * FROM member WHERE mobile_phone=#mobile_phone#;"
+
+  - title: '正确手机号与密码不带注册名注册普通会员账号_注册成功'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '123456789'
+      type: 1
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '正确手机号前后带空格注册普通会员账号_注册成功'
+    data:
+      mobile_phone: ' #mobile_phone# '
+      pwd: '123456789'
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '密码最后一位包含特殊字符(＼)注册普通会员账号_注册成功'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '123456789\'
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '密码包含特殊字符(")注册管理员账号_注册成功'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '123456789"'
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '手机号为空注册管理员账号_注册失败'
+    data:
+      mobile_phone: ''
+      pwd: '12345678'
+    expect: {"code": 1, "msg": "手机号为空"}
+    sql: ''
+
+  - title: '密码为空注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: ''
+    expect: {"code": 1, "msg": "密码为空"}
+    sql: ''
+
+  - title: '账号类型为空注册账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+      type: ''
+    expect: {"code": 1, "msg": "类型为空"}
+    sql: ''
+
+  - title: '已注册手机号注册管理员账号_注册失败'
+    data:
+      mobile_phone: '13369290022'
+      pwd: '12345678'
+    expect: {"code": 2, "msg": "账号已存在"}
+    sql: ''
+
+  - title: '包含字符的手机号注册管理员账号_注册失败'
+    data:
+      mobile_phone: '1362a852856'
+      pwd: '12345678'
+    expect: {"code": 2, "msg": "无效的手机格式"}
+    sql: ''
+
+  - title: '手机号长度 > 11位注册管理员账号_注册失败'
+    data:
+      mobile_phone: '136239528561'
+      pwd: '12345678'
+    expect: {"code": 2, "msg": "无效的手机格式"}
+    sql: ''
+
+  - title: '手机号长度 < 11位注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '1362335285'
+      pwd: '12345678'
+    expect: {"code": 2, "msg": "无效的手机格式"}
+    sql: ''
+
+  - title: '密码长度 < 8 注册管理员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '1234567'
+    expect: {"code": 2, "msg": "密码格式为8到16位"}
+    sql: ''
+
+  - title: '密码长度 > 16 注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678912345678'
+    expect: {"code": 2, "msg": "密码格式为8到16位"}
+    sql: ''
+
+  - title: '密码长度包含前后空格共8位注册管理员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: ' 123456 '
+    expect: {"code": 2, "msg": "密码格式为8到16位"}
+    sql: ''
+
+  - title: '密码为纯10位空格字符注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '        '
+    expect: {"code": 2, "msg": "密码格式为8到16位"}
+    sql: ''
+
+  - title: '会员类型0(str类型)注册管理员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+      type: '0'
+    expect: {"code": 2, "msg": "type参数错误"}
+    sql: ''
+
+  - title: '会员类型为3(int类型)注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+      type: 3
+    expect: {"code": 2, "msg": "不支持的用户类型"}
+    sql: ''
+
+  - title: '注册名长度 > 10 位注册普通会员账号_注册失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+      reg_name: 'kekekekekeke'
+    expect: {"code": 2, "msg": "用户昵称长度超过10位"}
+    sql: ''
+
+login:
+  - title: '已注册的手机号正确的密码管理员账号登录_登录成功'
+    data:
+      mobile_phone: '#admin#'
+      pwd: '#admin_pwd#'
+    expect: {"code": 0, "msg": "OK"}
+
+  - title: '已注册的手机号正确的密码普通会员账号登录_登录成功'
+    data:
+      mobile_phone: '#user#'
+      pwd: '#user_pwd#'
+    expect: {"code": 0, "msg": "OK"}
+
+  - title: '正确的手机号前后带空格登录_登录成功'
+    data:
+      mobile_phone: ' #user# '
+      pwd: '#user_pwd#'
+    expect: {"code": 2, "msg": "无效的手机格式"}
+
+  - title: '正确的手机号正确的密码前后带空格登录_登录失败'
+    data:
+      mobile_phone: '#user#'
+      pwd: ' #user_pwd# '
+    expect: {"code": 1001, "msg": "账号信息错误"}
+
+  - title: '已注册的手机号错误的密码登录_登录失败'
+    data:
+      mobile_phone: '#user#'
+      pwd: '87654321'
+    expect: {"code": 1001, "msg": "账号信息错误"}
+
+  - title: '未注册的手机号登录_登录失败'
+    data:
+      mobile_phone: '#mobile_phone#'
+      pwd: '12345678'
+    expect: {"code": 1001, "msg": "账号信息错误"}
+
+  - title: '手机号为空登录_登录失败'
+    data:
+      mobile_phone: ''
+      pwd: '12345678'
+    expect: {"code": 1, "msg": "手机号码为空"}
+
+  - title: '密码为空登录_登录失败'
+    data:
+      mobile_phone: '#user#'
+      pwd: ''
+    expect: {"code": 1, "msg": "密码为空"}
+
+recharge:
+  - title: '普通会员充值50万_充值成功'
+    data:
+      member_id: '#member_id#'
+      amount: 500000
+    expect: {"code": 0, "msg": "OK"}
+    sql: "SELECT leave_amount FROM futureloan.member WHERE id=#member_id#;"
+
+  - title: '普通会员用户充值0.1元_充值成功'
+    data:
+      member_id: '#member_id#'
+      amount: 0.1
+    expect: {"code": 0, "msg": "OK"}
+    sql: "SELECT leave_amount FROM futureloan.member WHERE id=#member_id#;"
+
+  - title: '会员id为空_充值失败'
+    data:
+      member_id: ''
+      amount: 1000
+    expect: {"code": 1, "msg": "用户id为空"}
+    sql: ''
+
+  - title: '充值金额为空_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: ''
+    expect: {"code": 1, "msg": "余额为空"}
+    sql: ''
+
+  - title: '充值金额大于50万_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: 500000.1
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '充值金额为0_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: 0
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '充值金额为100元(str类型)_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: '100'
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '充值金额为a元_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: 'a'
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '充值金额为-1元_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: -1
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '充值金额为纯空格字符_充值失败'
+    data:
+      member_id: '#member_id#'
+      amount: '  '
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '非当前登录用户充值1000元_充值失败'
+    data:
+      member_id: '#error_id#'
+      amount: 1000
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
+withdraw:
+  - title: '普通会员提现50万_提现成功'
+    recharge_data: &recharge_data
+      member_id: '#member_id#'
+      amount: 500000
+    withdraw_data:
+      <<: *recharge_data
+    expect: {"code": 0, "msg": "OK"}
+    sql: "SELECT leave_amount FROM futureloan.member WHERE id=#member_id#;"
+
+  - title: '普通会员提现0.1元_提现成功'
+    recharge_data:
+      <<: *recharge_data
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: 0.1
+    expect: {"code": 0, "msg": "OK"}
+    sql: "SELECT leave_amount FROM futureloan.member WHERE id=#member_id#;"
+
+  - title: "提现金额大于用户可用余额_提现失败"
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: '#max_amount#'
+    expect: {"code": 1002, "msg": "余额不足"}
+    sql: ''
+
+  - title: '提现金额大于50万_提现失败'
+    recharge_data:
+      <<: *recharge_data
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: 500000.1
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '会员id为空_提现失败'
+    withdraw_data:
+      member_id: ''
+      amount: 1000
+    expect: {"code": 1, "msg": "用户id为空"}
+    sql: ''
+
+  - title: '充值金额为空_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: ''
+    expect: {"code": 1, "msg": "余额为空"}
+    sql: ''
+
+  - title: '提现金额为0元_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: 0
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '提现金额为100元(str类型)_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: '100'
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '提现金额为a元_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: 'a'
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '提现金额为-1元_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: -1
+    expect: {"code": 2, "msg": "余额必须大于0并且小于或者等于500000"}
+    sql: ''
+
+  - title: '提现金额为纯空格字符_提现失败'
+    withdraw_data:
+      member_id: '#member_id#'
+      amount: '  '
+    expect: {"code": 2, "msg": "余额必须为数值型"}
+    sql: ''
+
+  - title: '非当前登录用户提现1000元_提现失败'
+    withdraw_data:
+      member_id: '#error_id#'
+      amount: 1000
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
+add:
+  - title: '（借款期限类型：1）借款期限为12.17月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 1000000
+      loan_rate: 3
+      loan_term: 12.5
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 0, "msg": "OK"}
+    sql: "select title, amount,loan_rate, loan_term, loan_date_type, bidding_days, `status` from futureloan.loan where id=#loan_id#;"
+
+  - title: '普通会员新增(借款金额1000w，年利率：50，借款期限:36,借款期限类型：1，竞标天数：10天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000000
+      loan_rate: 20
+      loan_term: 36
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 0, "msg": "OK"}
+    sql: "select title, amount,loan_rate, loan_term, loan_date_type, bidding_days, `status` from futureloan.loan where id=#loan_id#;"
+
+  - title: '普通会员新增(借款金额1000w，年利率：24，借款期限:12.5,借款期限类型：1，竞标天数：10天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000000
+      loan_rate: 24
+      loan_term: 12.5
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额50.5w，年利率：100，借款期限:10,借款期限类型：2，竞标天数：5天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 500000.5
+      loan_rate: 20.5
+      loan_term: 10
+      loan_date_type: 2
+      bidding_days: 5
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额1000w，年利率：5，借款期限:45,借款期限类型：2，竞标天数：7天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 45
+      loan_date_type: 2
+      bidding_days: 7
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '普通会员新增(借款金额1000w，年利率：5，借款期限:30.5,借款期限类型：2，竞标天数：7天）的项目_新增成功'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 30.5
+      loan_date_type: 2
+      bidding_days: 7
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '用户id为空_新增失败'
+    data:
+      member_id: ''
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "用户id为空"}
+    sql: ''
+
+  - title: '非当前登录用户_新增失败'
+    data:
+      member_id: '#error_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
+  - title: '标题为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: ''
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题为纯空格字符_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '     '
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题为int(0)_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: 0
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题为空"}
+    sql: ''
+
+  - title: '标题长度>50_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#max_title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "标题超长"}
+    sql: ''
+
+  - title: '年利率为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: ''
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "利率为空"}
+    sql: ''
+
+  - title: '年利率为纯空格字符_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: '     '
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "利率为空"}
+    sql: ''
+
+  - title: '年利率为负数_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: -5
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为0_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 0
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率>100%_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 101
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为a_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: a
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '年利率为str(7)_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 7
+      loan_term: 1
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款利率范围错误"}
+    sql: ''
+
+  - title: '借款期限为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: ''
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "借款期限为空"}
+    sql: ''
+
+  - title: '借款期限为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 100000
+      loan_rate: 5
+      loan_term: '  '
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 1, "msg": "借款期限为空"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为0月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 0
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为37月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 37
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为a月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 'a'
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：1）借款期限为-12月_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: -12
+      loan_date_type: 1
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为月的项目,期限范围为1到36个月(包含1个月和36个月)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为9天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 9
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为46天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 46
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为0天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 0
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为11.17天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 11.7
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为a天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 'a'
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '（借款期限类型：2）借款期限为-11天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: -11
+      loan_date_type: 2
+      bidding_days: 10
+    expect: {"code": 2, "msg": "借款期限单位为天的项目,期限范围为10到45天(包含10天和45天)"}
+    sql: ''
+
+  - title: '竞标天数为空_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: ''
+    expect: {"code": 1, "msg": "竞标期限为空"}
+    sql: ''
+
+  - title: '竞标天数为0天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 0
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为11天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 11
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为5.17天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: 5.17
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为a天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: a
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+  - title: '竞标天数为-5天_新增失败'
+    data:
+      member_id: '#member_id#'
+      title: '#title#'
+      amount: 10000
+      loan_rate: 3
+      loan_term: 15
+      loan_date_type: 2
+      bidding_days: -5
+    expect: {"code": 2, "msg": "竞标期限为1-10天"}
+    sql: ''
+
+update:
+  - title: '普通会员更新10位长度的昵称_更新成功'
+    data:
+      member_id: '#member_id#'
+      reg_name: '普通会员更新1位长度'
+    expect: {"code": 0, "msg": "OK"}
+    sql: 'select reg_name from futureloan.member where id=#member_id#;'
+
+  - title: '普通会员更新1位长度的昵称_更新成功'
+    data:
+      member_id: '#member_id#'
+      reg_name: 'M'
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '会员id为空_更新失败'
+    data:
+      member_id: ''
+      reg_name: 'df123'
+    expect: {"code": 2, "msg": "数值参数格式错误"}
+    sql: ''
+
+  - title: '非当前登录用户更新昵称_更新失败'
+    data:
+      member_id: '#error_id#'
+      reg_name: 'df123'
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
+  - title: '昵称为空_更新失败'
+    data:
+      member_id: '#member_id#'
+      reg_name: ''
+    expect: {"code": 1, "msg": "用户名不能为空字符串，也不能全部是空格"}
+    sql: ''
+
+  - title: '昵称为纯空格字符_更新失败'
+    data:
+      member_id: '#member_id#'
+      reg_name: '    '
+    expect: {"code": 1, "msg": "用户名不能为空字符串，也不能全部是空格"}
+    sql: ''
+
+  - title: '昵称长度大于10_更新失败'
+    data:
+      member_id: '#member_id#'
+      reg_name: '昵称为纯空格字符字符A'
+    expect: {"code": 2, "msg": "用户昵称长度超过10位"}
+    sql: ''
+
+member_info:
+  - title: '普通用户获取用户信息_获取成功'
+    data:
+      user_type: 'user'   # 此字段用于识别需要登录的用户类型是普通用户还是管理员用户
+      member_id: '#member_id#'
+    expect: {"code": 0, "msg": "OK", "mobile_phone": "13369290022"}
+    sql: 'select mobile_phone from futureloan.member where id=#member_id#;'
+
+  - title: '管理员用户获取用户信息_获取成功'
+    data:
+      user_type: 'admin'
+      member_id: '#member_id#'
+    expect: {"code": 0, "msg": "OK"}
+    sql: ''
+
+  - title: '非当前登录用户获取用户信息_获取失败'
+    data:
+      user_type: '#user#'
+      member_id: '#error_id#'
+    expect: {"code": 1007, "msg": "无权限访问，请检查参数"}
+    sql: ''
+
