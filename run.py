@@ -7,5 +7,5 @@ import pytest
 
 
 if __name__ == "__main__":
-    pytest.main(['-s', '-n', 'auto', r"--alluredir=output/report", "--clean-alluredir"])
+    pytest.main(['-s', r"--alluredir=output/report", "--clean-alluredir"])
     os.system('allure generate output/report/ -o output/report/html -c')
